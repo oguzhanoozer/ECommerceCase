@@ -20,14 +20,23 @@ class MockNetworkManager: NetworkManagerProtocol {
         return try? JSONDecoder().decode([Product].self, from: jsonData)
     }
     
-    func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+    func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
             completion(.failure(NSError(domain: "", code: -1)))
             return
         }
         
-        if let products = parseProducts() {
-            completion(.success(products))
+        if let allProducts = parseProducts() {
+            let startIndex = (page - 1) * limit
+            let endIndex = min(startIndex + limit, allProducts.count)
+            
+            guard startIndex < allProducts.count else {
+                completion(.success([]))
+                return
+            }
+            
+            let pagedProducts = Array(allProducts[startIndex..<endIndex])
+            completion(.success(pagedProducts))
         } else {
             completion(.failure(NSError(domain: "", code: -2)))
         }

@@ -1,7 +1,7 @@
 import Foundation
 
 protocol NetworkManagerProtocol {
-    func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void)
+    func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void)
     func fetchProductDetail(id: Int, completion: @escaping (Result<Product, Error>) -> Void)
     func fetchHeaderProducts(completion: @escaping (Result<[Product], Error>) -> Void)
 }
@@ -38,8 +38,8 @@ class NetworkManager: NetworkManagerProtocol {
         }.resume()
     }
     
-    func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
-        let urlString = AppConstants.API.baseURL + AppConstants.API.products
+    func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
+        let urlString = AppConstants.API.baseURL + AppConstants.API.products + "?limit=\(limit)&offset=\((page-1)*limit)"
         fetch(url: urlString, completion: completion)
     }
     

@@ -113,6 +113,10 @@ extension ProductListViewController: UICollectionViewDelegate {
         let product = viewModel.products[indexPath.item]
         navigateToDetail(with: product.id)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.loadMoreIfNeeded(at: indexPath)
+    }
 }
 
 // MARK: - ProductListViewModelDelegate
