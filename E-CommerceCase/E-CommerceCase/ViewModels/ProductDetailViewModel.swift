@@ -7,7 +7,7 @@ class ProductDetailViewModel {
     
     weak var delegate: ProductListViewModelDelegate?
     
-    init(productId: Int, networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+    init(productId: Int, networkManager: NetworkManagerProtocol = MockNetworkManager.shared) {
         self.productId = productId
         self.networkManager = networkManager
     }

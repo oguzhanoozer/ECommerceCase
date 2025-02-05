@@ -12,7 +12,7 @@ class ProductListViewModel {
     private(set) var products: [Product] = []
     private(set) var headerProducts: [Product] = []
     
-    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
+    init(networkManager: NetworkManagerProtocol = MockNetworkManager.shared) {
         self.networkManager = networkManager
     }
     

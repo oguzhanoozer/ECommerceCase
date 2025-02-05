@@ -15,6 +15,11 @@ class MockNetworkManager: NetworkManagerProtocol {
         return try? JSONDecoder().decode(Product.self, from: jsonData)
     }
     
+    private func parseHeaderProducts() -> [Product]? {
+        guard let jsonData = MockData.headerProductsJSON.data(using: .utf8) else { return nil }
+        return try? JSONDecoder().decode([Product].self, from: jsonData)
+    }
+    
     func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
             completion(.failure(NSError(domain: "", code: -1)))
@@ -42,6 +47,15 @@ class MockNetworkManager: NetworkManagerProtocol {
     }
     
     func fetchHeaderProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
-        fetchProducts(completion: completion)
+        if shouldFail {
+            completion(.failure(NSError(domain: "", code: -1)))
+            return
+        }
+        
+        if let products = parseHeaderProducts() {
+            completion(.success(products))
+        } else {
+            completion(.failure(NSError(domain: "", code: -2)))
+        }
     }
 } 
