@@ -11,6 +11,14 @@ class ProductCell: UICollectionViewCell {
     
     private let imageView = ProductImageView()
     
+    private lazy var contentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [titleLabel, priceLabel])
+        stack.axis = .vertical
+        stack.spacing = AppSizes.Padding.small
+        stack.alignment = .leading
+        return stack
+    }()
+    
     private let titleLabel = BaseLabel(style: .title)
     private let priceLabel = BaseLabel(style: .price)
     
@@ -27,11 +35,10 @@ class ProductCell: UICollectionViewCell {
         contentView.addSubview(cardView)
         cardView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
-        cardView.addSubview(titleLabel)
-        cardView.addSubview(priceLabel)
+        cardView.addSubview(contentStack)
         
         [cardView, imageContainerView, imageView, 
-         titleLabel, priceLabel].forEach {
+         contentStack].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -51,14 +58,10 @@ class ProductCell: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalTo: imageContainerView.widthAnchor, multiplier: 0.8),
             imageView.heightAnchor.constraint(equalTo: imageContainerView.heightAnchor, multiplier: 0.8),
             
-            titleLabel.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: AppSizes.Padding.medium),
-            titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
-            titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
-            
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppSizes.Padding.small),
-            priceLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
-            priceLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
-            priceLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppSizes.Padding.medium)
+            contentStack.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: AppSizes.Padding.medium),
+            contentStack.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
+            contentStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
+            contentStack.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppSizes.Padding.medium)
         ])
     }
     

@@ -14,14 +14,12 @@ class ProductDetailViewModel {
     
     func fetchProductDetail() {
         networkManager.fetchProductDetail(id: productId) { [weak self] result in
-            switch result {
-            case .success(let product):
-                self?.product = product
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let product):
+                    self?.product = product
                     self?.delegate?.productsLoaded()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     self?.delegate?.showError(error)
                 }
             }

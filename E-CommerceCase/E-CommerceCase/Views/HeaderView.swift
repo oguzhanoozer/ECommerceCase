@@ -5,8 +5,6 @@ protocol HeaderViewDelegate: AnyObject {
 }
 
 class HeaderView: UICollectionReusableView {
-    private let containerView = BaseView()
-    
     weak var delegate: HeaderViewDelegate?
     private var products: [Product] = []
     
@@ -43,7 +41,6 @@ class HeaderView: UICollectionReusableView {
     }
     
     func configure(with products: [Product]) {
-        containerView.hideLoading()
         self.products = products
         pageControl.numberOfPages = products.count
         collectionView.reloadData()
@@ -51,22 +48,15 @@ class HeaderView: UICollectionReusableView {
     
     private func setupUI() {
         backgroundColor = .clear
-        containerView.showLoading()
         
-        addSubview(containerView)
         addSubview(collectionView)
         addSubview(pageControl)
         
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        [collectionView, pageControl].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -77,12 +67,6 @@ class HeaderView: UICollectionReusableView {
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.heightAnchor.constraint(equalToConstant: 30)
         ])
-    }
-    
-    func loadData() {
-        containerView.showLoading()
-        // Data yükleme...
-        containerView.hideLoading()
     }
 }
 
@@ -100,11 +84,7 @@ extension HeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 160)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -22,7 +22,7 @@ class MockNetworkManager: NetworkManagerProtocol {
     
     func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
@@ -38,33 +38,33 @@ class MockNetworkManager: NetworkManagerProtocol {
             let pagedProducts = Array(allProducts[startIndex..<endIndex])
             completion(.success(pagedProducts))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
     
     func fetchProductDetail(id: Int, completion: @escaping (Result<Product, Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
         if let product = parseProductDetail() {
             completion(.success(product))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
     
     func fetchHeaderProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
         if let products = parseHeaderProducts() {
             completion(.success(products))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
 } 

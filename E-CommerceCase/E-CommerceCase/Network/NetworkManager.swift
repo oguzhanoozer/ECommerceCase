@@ -13,10 +13,12 @@ class NetworkManager: NetworkManagerProtocol {
     private let timeoutInterval: TimeInterval = 10
     
     private func fetch<T: Decodable>(url: String, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let url = URL(string: url) else { return }
+        guard let url = URL(string: url) else {
+            completion(.failure(NetworkError.invalidURL))
+            return
+        }
         
-        var request = URLRequest(url: url)
-        request.timeoutInterval = timeoutInterval
+        let request = URLRequest(url: url, timeoutInterval: timeoutInterval)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -25,7 +27,7 @@ class NetworkManager: NetworkManagerProtocol {
             }
             
             guard let data = data else {
-                completion(.failure(NSError(domain: "", code: -1)))
+                completion(.failure(NetworkError.noData))
                 return
             }
             
@@ -52,4 +54,9 @@ class NetworkManager: NetworkManagerProtocol {
         let urlString = AppConstants.API.baseURL + AppConstants.API.products + "?limit=5"
         fetch(url: urlString, completion: completion)
     }
+}
+
+enum NetworkError: Error {
+    case invalidURL
+    case noData
 } 

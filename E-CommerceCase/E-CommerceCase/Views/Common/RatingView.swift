@@ -17,8 +17,9 @@ class RatingView: UIView {
         addSubview(ratingLabel)
         addSubview(countLabel)
         
-        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
-        countLabel.translatesAutoresizingMaskIntoConstraints = false
+        [ratingLabel, countLabel].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             ratingLabel.leadingAnchor.constraint(equalTo: leadingAnchor),

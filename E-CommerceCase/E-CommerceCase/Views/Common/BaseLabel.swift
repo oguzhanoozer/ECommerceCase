@@ -2,40 +2,37 @@ import UIKit
 
 class BaseLabel: UILabel {
     enum Style {
-        case title
-        case subtitle
-        case price
-        case description
-        case category
-        case rating
-        case ratingCount
+        case title      // Ürün başlığı için
+        case price      // Fiyat için
+        case subtitle   // Kategori gibi ikincil bilgiler için
+        case body       // Açıklama metni için
+        case rating     // Rating için
+        case ratingCount // Rating sayısı için
         
         var font: UIFont {
             switch self {
             case .title:
-                return TextStyle.heading
-            case .subtitle:
-                return TextStyle.heading
+                return .systemFont(ofSize: 16, weight: .semibold)
             case .price:
-                return TextStyle.heading
-            case .description:
-                return TextStyle.body
-            case .category:
-                return TextStyle.caption
+                return .systemFont(ofSize: 18, weight: .bold)
+            case .subtitle:
+                return .systemFont(ofSize: 14, weight: .regular)
+            case .body:
+                return .systemFont(ofSize: 14, weight: .regular)
             case .rating:
-                return TextStyle.body
+                return .systemFont(ofSize: 16, weight: .semibold)
             case .ratingCount:
-                return TextStyle.caption
+                return .systemFont(ofSize: 12, weight: .regular)
             }
         }
         
         var textColor: UIColor {
             switch self {
-            case .title, .subtitle, .description:
-                return AppColors.secondary
+            case .title, .body:
+                return .black
             case .price:
                 return AppColors.accent
-            case .category, .ratingCount:
+            case .subtitle, .ratingCount:
                 return .gray
             case .rating:
                 return .systemYellow
@@ -46,7 +43,7 @@ class BaseLabel: UILabel {
             switch self {
             case .title:
                 return 2
-            case .description:
+            case .body:
                 return 0
             default:
                 return 1
@@ -54,8 +51,17 @@ class BaseLabel: UILabel {
         }
     }
     
-    convenience init(style: Style) {
-        self.init(frame: .zero)
+    init(style: Style, text: String? = nil) {
+        super.init(frame: .zero)
+        self.text = text
+        configure(with: style)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configure(with style: Style) {
         font = style.font
         textColor = style.textColor
         numberOfLines = style.numberOfLines
