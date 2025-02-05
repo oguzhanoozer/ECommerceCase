@@ -1,55 +1,37 @@
 import UIKit
 
-class ProductImageView: UIImageView {
-    private let activityIndicator = UIActivityIndicatorView(style: .medium)
-    private let errorLabel: UILabel = {
-        let label = UILabel()
-        label.text = "!"
-        label.font = .systemFont(ofSize: 30, weight: .bold)
-        label.textColor = .red
-        label.isHidden = true
-        label.textAlignment = .center
-        return label
+class ProductImageView: BaseView {
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        return iv
     }()
-    
-    convenience init() {
-        self.init(frame: .zero)
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupImageView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupUI() {
-        contentMode = .scaleAspectFit
-        backgroundColor = AppColors.primary
-        clipsToBounds = true
-        
-        addSubview(activityIndicator)
-        addSubview(errorLabel)
-        
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+    private func setupImageView() {
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            activityIndicator.centerXAnchor.constraint(equalTo: centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: centerYAnchor),
-            
-            errorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            errorLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
     func loadImage(from urlString: String) {
-        // Reset state
-        image = nil
-        errorLabel.isHidden = true
-        activityIndicator.startAnimating()
+        resetState()
+        showLoading()
         
         guard let url = URL(string: urlString) else {
             showError()
@@ -58,7 +40,7 @@ class ProductImageView: UIImageView {
         
         let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
             DispatchQueue.main.async {
-                self?.activityIndicator.stopAnimating()
+                self?.hideLoading()
                 
                 if let error = error {
                     print("Image loading error: \(error.localizedDescription)")
@@ -74,20 +56,14 @@ class ProductImageView: UIImageView {
                     return
                 }
                 
-                UIView.transition(with: self ?? UIImageView(),
+                UIView.transition(with: self?.imageView ?? UIImageView(),
                                 duration: 0.3,
                                 options: .transitionCrossDissolve,
                                 animations: {
-                    self?.image = image
+                    self?.imageView.image = image
                 })
             }
         }
         task.resume()
-    }
-    
-    private func showError() {
-        activityIndicator.stopAnimating()
-        errorLabel.isHidden = false
-        backgroundColor = AppColors.primary.withAlphaComponent(0.1)
     }
 } 

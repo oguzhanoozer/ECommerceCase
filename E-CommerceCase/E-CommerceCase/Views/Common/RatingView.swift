@@ -1,6 +1,9 @@
 import UIKit
 
-class RatingView: UILabel {
+class RatingView: UIView {
+    private let ratingLabel = BaseLabel(style: .rating)
+    private let countLabel = BaseLabel(style: .ratingCount)
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -11,11 +14,24 @@ class RatingView: UILabel {
     }
     
     private func setupUI() {
-        font = .systemFont(ofSize: AppSizes.FontSize.small)
-        textColor = .systemYellow
+        addSubview(ratingLabel)
+        addSubview(countLabel)
+        
+        ratingLabel.translatesAutoresizingMaskIntoConstraints = false
+        countLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            ratingLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            ratingLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            
+            countLabel.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: 4),
+            countLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            countLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
     }
     
     func configure(rating: Double, count: Int) {
-        text = "★ \(String(format: "%.1f", rating)) (\(count))"
+        ratingLabel.text = "★ \(String(format: "%.1f", rating))"
+        countLabel.text = "(\(count))"
     }
 } 

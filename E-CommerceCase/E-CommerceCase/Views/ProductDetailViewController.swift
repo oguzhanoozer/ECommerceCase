@@ -11,27 +11,12 @@ class ProductDetailViewController: UIViewController {
     
     private let imageView = ProductImageView()  // ProductImageView kullan
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.secondary
-        label.numberOfLines = 0
+    private let titleLabel = BaseLabel(style: .title)
+    private let categoryLabel: BaseLabel = {
+        let label = BaseLabel(style: .category)
         return label
     }()
-    
-    private let categoryLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.caption
-        label.textColor = .gray
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.accent
-        return label
-    }()
+    private let priceLabel = BaseLabel(style: .price)
     
     private let headerStackView: UIStackView = {
         let sv = UIStackView()
@@ -50,12 +35,14 @@ class ProductDetailViewController: UIViewController {
     
     private let ratingLabel = RatingView()  // RatingView kullan
     
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.body
-        label.textColor = AppColors.secondary
-        label.numberOfLines = 0
-        return label
+    private let descriptionLabel = BaseLabel(style: .description)
+    
+    private let priceAndCategoryStackView: UIStackView = {
+        let sv = UIStackView()
+        sv.axis = .horizontal
+        sv.alignment = .center
+        sv.distribution = .equalSpacing // İçerik arasında eşit boşluk bırakır
+        return sv
     }()
     
     init(viewModel: ProductDetailViewModel) {
@@ -82,16 +69,19 @@ class ProductDetailViewController: UIViewController {
         scrollView.addSubview(headerStackView)
         
         headerStackView.addArrangedSubview(titleLabel)
-        headerStackView.addArrangedSubview(spacerView)  // Spacer'ı ekle
+        headerStackView.addArrangedSubview(spacerView)
         headerStackView.addArrangedSubview(ratingLabel)
         
         scrollView.addSubview(imageView)
-        scrollView.addSubview(categoryLabel)
-        scrollView.addSubview(priceLabel)
+        scrollView.addSubview(priceAndCategoryStackView)
         scrollView.addSubview(descriptionLabel)
         
+        // Price ve Category'yi stack view'a ekle
+        priceAndCategoryStackView.addArrangedSubview(priceLabel)
+        priceAndCategoryStackView.addArrangedSubview(categoryLabel)
+        
         [scrollView, headerStackView, imageView,
-         titleLabel, categoryLabel, priceLabel, descriptionLabel].forEach {
+         priceAndCategoryStackView, descriptionLabel].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -110,13 +100,11 @@ class ProductDetailViewController: UIViewController {
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.heightAnchor.constraint(equalToConstant: AppSizes.ImageSize.productDetail),
             
-            categoryLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: AppSizes.Padding.extraLarge),
-            categoryLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: AppSizes.Padding.extraLarge),
+            priceAndCategoryStackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: AppSizes.Padding.extraLarge),
+            priceAndCategoryStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: AppSizes.Padding.extraLarge),
+            priceAndCategoryStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -AppSizes.Padding.extraLarge),
             
-            priceLabel.topAnchor.constraint(equalTo: categoryLabel.bottomAnchor, constant: AppSizes.Padding.extraLarge),
-            priceLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: AppSizes.Padding.extraLarge),
-            
-            descriptionLabel.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: AppSizes.Padding.extraLarge),
+            descriptionLabel.topAnchor.constraint(equalTo: priceAndCategoryStackView.bottomAnchor, constant: AppSizes.Padding.extraLarge),
             descriptionLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: AppSizes.Padding.extraLarge),
             descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -AppSizes.Padding.extraLarge),
             descriptionLabel.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -AppSizes.Padding.extraLarge)

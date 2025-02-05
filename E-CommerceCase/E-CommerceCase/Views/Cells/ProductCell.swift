@@ -11,20 +11,8 @@ class ProductCell: UICollectionViewCell {
     
     private let imageView = ProductImageView()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.secondary
-        label.numberOfLines = 2
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.body
-        label.textColor = AppColors.accent
-        return label
-    }()
+    private let titleLabel = BaseLabel(style: .title)
+    private let priceLabel = BaseLabel(style: .price)
     
     override init(frame: CGRect) {
         super.init(frame: frame)

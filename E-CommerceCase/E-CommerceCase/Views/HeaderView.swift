@@ -5,6 +5,8 @@ protocol HeaderViewDelegate: AnyObject {
 }
 
 class HeaderView: UICollectionReusableView {
+    private let containerView = BaseView()
+    
     weak var delegate: HeaderViewDelegate?
     private var products: [Product] = []
     
@@ -31,12 +33,6 @@ class HeaderView: UICollectionReusableView {
         return cv
     }()
     
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -47,25 +43,29 @@ class HeaderView: UICollectionReusableView {
     }
     
     func configure(with products: [Product]) {
+        containerView.hideLoading()
         self.products = products
         pageControl.numberOfPages = products.count
         collectionView.reloadData()
     }
     
     private func setupUI() {
-        addSubview(backgroundView)
+        backgroundColor = .clear
+        containerView.showLoading()
+        
+        addSubview(containerView)
         addSubview(collectionView)
         addSubview(pageControl)
         
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
+        containerView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         pageControl.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -77,6 +77,12 @@ class HeaderView: UICollectionReusableView {
             pageControl.bottomAnchor.constraint(equalTo: bottomAnchor),
             pageControl.heightAnchor.constraint(equalToConstant: 30)
         ])
+    }
+    
+    func loadData() {
+        containerView.showLoading()
+        // Data yükleme...
+        containerView.hideLoading()
     }
 }
 

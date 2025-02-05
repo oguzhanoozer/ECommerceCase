@@ -42,7 +42,6 @@ class ProductListViewController: UIViewController {
     }
     
     private func setupUI() {
-        title = "Products"
         view.backgroundColor = AppColors.primary
         view.addSubview(collectionView)
         
