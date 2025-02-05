@@ -19,7 +19,7 @@ class HeaderCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.large, weight: .bold)
+        label.font = TextStyle.heading
         label.textColor = AppColors.secondary
         label.numberOfLines = 2
         return label
@@ -27,21 +27,21 @@ class HeaderCell: UICollectionViewCell {
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.extraLarge, weight: .heavy)
+        label.font = TextStyle.heading
         label.textColor = AppColors.accent
         return label
     }()
     
     private let ratingLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.medium, weight: .medium)
+        label.font = TextStyle.body
         label.textColor = .systemYellow
         return label
     }()
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.small, weight: .regular)
+        label.font = TextStyle.caption
         label.textColor = .gray
         return label
     }()

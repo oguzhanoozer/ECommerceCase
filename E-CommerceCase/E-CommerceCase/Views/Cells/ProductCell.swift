@@ -13,15 +13,16 @@ class ProductCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.small, weight: .medium)
+        label.font = TextStyle.heading
+        label.textColor = AppColors.secondary
         label.numberOfLines = 2
         return label
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.medium, weight: .bold)
-        label.textColor = .gray
+        label.font = TextStyle.body
+        label.textColor = AppColors.accent
         return label
     }()
     

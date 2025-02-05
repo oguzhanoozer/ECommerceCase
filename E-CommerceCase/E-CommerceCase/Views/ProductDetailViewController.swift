@@ -13,21 +13,22 @@ class ProductDetailViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.extraLarge, weight: .bold)
+        label.font = TextStyle.heading
+        label.textColor = AppColors.secondary
         label.numberOfLines = 0
         return label
     }()
     
     private let categoryLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.medium)
+        label.font = TextStyle.caption
         label.textColor = .gray
         return label
     }()
     
     private let priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.title, weight: .bold)
+        label.font = TextStyle.heading
         label.textColor = AppColors.accent
         return label
     }()
@@ -51,7 +52,8 @@ class ProductDetailViewController: UIViewController {
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: AppSizes.FontSize.medium)
+        label.font = TextStyle.body
+        label.textColor = AppColors.secondary
         label.numberOfLines = 0
         return label
     }()
