@@ -6,7 +6,22 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2145C0A92D537B7300AC454F /* Hero in Frameworks */ = {isa = PBXBuildFile; productRef = 2145C0A82D537B7300AC454F /* Hero */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2145C0CD2D53902000AC454F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 219ABA7B2D53717800661BF5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 219ABA822D53717800661BF5;
+			remoteInfo = "E-CommerceCase";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		2145C0C92D53902000AC454F /* E-CommerceCaseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "E-CommerceCaseTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		219ABA832D53717800661BF5 /* E-CommerceCase.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "E-CommerceCase.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -21,6 +36,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		2145C0CA2D53902000AC454F /* E-CommerceCaseTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "E-CommerceCaseTests";
+			sourceTree = "<group>";
+		};
 		219ABA852D53717800661BF5 /* E-CommerceCase */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -32,10 +52,18 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2145C0C62D53902000AC454F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		219ABA802D53717800661BF5 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2145C0A92D537B7300AC454F /* Hero in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				219ABA852D53717800661BF5 /* E-CommerceCase */,
+				2145C0CA2D53902000AC454F /* E-CommerceCaseTests */,
 				219ABA842D53717800661BF5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -54,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				219ABA832D53717800661BF5 /* E-CommerceCase.app */,
+				2145C0C92D53902000AC454F /* E-CommerceCaseTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +91,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2145C0C82D53902000AC454F /* E-CommerceCaseTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2145C0CF2D53902000AC454F /* Build configuration list for PBXNativeTarget "E-CommerceCaseTests" */;
+			buildPhases = (
+				2145C0C52D53902000AC454F /* Sources */,
+				2145C0C62D53902000AC454F /* Frameworks */,
+				2145C0C72D53902000AC454F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2145C0CE2D53902000AC454F /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2145C0CA2D53902000AC454F /* E-CommerceCaseTests */,
+			);
+			name = "E-CommerceCaseTests";
+			packageProductDependencies = (
+			);
+			productName = "E-CommerceCaseTests";
+			productReference = 2145C0C92D53902000AC454F /* E-CommerceCaseTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		219ABA822D53717800661BF5 /* E-CommerceCase */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 219ABA962D53717900661BF5 /* Build configuration list for PBXNativeTarget "E-CommerceCase" */;
@@ -78,6 +131,7 @@
 			);
 			name = "E-CommerceCase";
 			packageProductDependencies = (
+				2145C0A82D537B7300AC454F /* Hero */,
 			);
 			productName = "E-CommerceCase";
 			productReference = 219ABA832D53717800661BF5 /* E-CommerceCase.app */;
@@ -93,6 +147,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					2145C0C82D53902000AC454F = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = 219ABA822D53717800661BF5;
+					};
 					219ABA822D53717800661BF5 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -107,17 +165,28 @@
 			);
 			mainGroup = 219ABA7A2D53717800661BF5;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				2145C0A72D537B7300AC454F /* XCRemoteSwiftPackageReference "Hero" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 219ABA842D53717800661BF5 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				219ABA822D53717800661BF5 /* E-CommerceCase */,
+				2145C0C82D53902000AC454F /* E-CommerceCaseTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2145C0C72D53902000AC454F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		219ABA812D53717800661BF5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -128,6 +197,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2145C0C52D53902000AC454F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		219ABA7F2D53717800661BF5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -137,7 +213,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2145C0CE2D53902000AC454F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 219ABA822D53717800661BF5 /* E-CommerceCase */;
+			targetProxy = 2145C0CD2D53902000AC454F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		2145C0D02D53902000AC454F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 743VDKQNVW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ozi.E-CommerceCaseTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E-CommerceCase.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/E-CommerceCase";
+			};
+			name = Debug;
+		};
+		2145C0D12D53902000AC454F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 743VDKQNVW;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ozi.E-CommerceCaseTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/E-CommerceCase.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/E-CommerceCase";
+			};
+			name = Release;
+		};
 		219ABA972D53717900661BF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -150,7 +270,6 @@
 				INFOPLIST_FILE = "E-CommerceCase/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -178,7 +297,6 @@
 				INFOPLIST_FILE = "E-CommerceCase/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -316,6 +434,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2145C0CF2D53902000AC454F /* Build configuration list for PBXNativeTarget "E-CommerceCaseTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2145C0D02D53902000AC454F /* Debug */,
+				2145C0D12D53902000AC454F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		219ABA7E2D53717800661BF5 /* Build configuration list for PBXProject "E-CommerceCase" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -335,6 +462,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2145C0A72D537B7300AC454F /* XCRemoteSwiftPackageReference "Hero" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/HeroTransitions/Hero.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2145C0A82D537B7300AC454F /* Hero */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2145C0A72D537B7300AC454F /* XCRemoteSwiftPackageReference "Hero" */;
+			productName = Hero;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 219ABA7B2D53717800661BF5 /* Project object */;
 }
