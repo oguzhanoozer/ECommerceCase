@@ -1,3 +1,10 @@
+//
+//  ProductDetailViewModel.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import Foundation
 
 class ProductDetailViewModel {
@@ -7,7 +14,7 @@ class ProductDetailViewModel {
     
     weak var delegate: ProductListViewModelDelegate?
     
-    init(productId: Int, networkManager: NetworkManagerProtocol = MockNetworkManager.shared) {
+    init(productId: Int, networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.productId = productId
         self.networkManager = networkManager
     }

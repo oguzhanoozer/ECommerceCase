@@ -1,3 +1,10 @@
+//
+//  HeaderView.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 protocol HeaderViewDelegate: AnyObject {
@@ -27,7 +34,7 @@ class HeaderView: UICollectionReusableView {
         cv.showsHorizontalScrollIndicator = false
         cv.delegate = self
         cv.dataSource = self
-        cv.register(HeaderCell.self, forCellWithReuseIdentifier: "HeaderCell")
+        cv.register(HeaderCell.self, forCellWithReuseIdentifier: AppConstants.CellIdentifiers.headerCell)
         return cv
     }()
     
@@ -37,7 +44,7 @@ class HeaderView: UICollectionReusableView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     func configure(with products: [Product]) {
@@ -76,7 +83,7 @@ extension HeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCell", for: indexPath) as? HeaderCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstants.CellIdentifiers.headerCell, for: indexPath) as? HeaderCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.item])

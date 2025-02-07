@@ -1,3 +1,10 @@
+//
+//  ProductDetailViewController.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class ProductDetailViewController: UIViewController {
@@ -55,7 +62,7 @@ class ProductDetailViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     override func viewDidLoad() {
@@ -65,7 +72,6 @@ class ProductDetailViewController: UIViewController {
         ActivityIndicatorView.shared.show(in: view)
         viewModel.fetchProductDetail()
         
-        // Back yazısını kaldır
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -74,11 +80,10 @@ class ProductDetailViewController: UIViewController {
         view.backgroundColor = .white
         scrollView.showsVerticalScrollIndicator = false
         
-        // Scroll view için inset'i artıralım
         scrollView.contentInset = UIEdgeInsets(
             top: AppSizes.Padding.large,
             left: 0,
-            bottom: AppSizes.Padding.extraLarge * 1.5,  // Alt padding'i artırdık
+            bottom: AppSizes.Padding.extraLarge * 1.5,
             right: 0
         )
         
@@ -89,7 +94,7 @@ class ProductDetailViewController: UIViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
-        let padding = AppSizes.Padding.large  // medium yerine large kullanıyoruz
+        let padding = AppSizes.Padding.large
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -106,12 +111,11 @@ class ProductDetailViewController: UIViewController {
             imageView.heightAnchor.constraint(equalToConstant: AppSizes.ImageSize.productDetail)
         ])
         
-        // Stack view spacing'leri
         contentStack.spacing = AppSizes.Padding.large
         contentStack.setCustomSpacing(AppSizes.Padding.extraLarge, after: headerStack)
         contentStack.setCustomSpacing(AppSizes.Padding.extraLarge, after: imageView)
-        contentStack.setCustomSpacing(AppSizes.Padding.medium, after: priceAndRatingStack)  // Price/rating ile category arası az olsun
-        contentStack.setCustomSpacing(AppSizes.Padding.extraLarge, after: categoryLabel)  // Category ile description arası fazla olsun
+        contentStack.setCustomSpacing(AppSizes.Padding.medium, after: priceAndRatingStack)  
+        contentStack.setCustomSpacing(AppSizes.Padding.extraLarge, after: categoryLabel)
     }
     
     private func updateUI() {
@@ -135,12 +139,5 @@ extension ProductDetailViewController: ProductListViewModelDelegate {
     func productsLoaded() {
         ActivityIndicatorView.shared.hide()
         updateUI()
-    }
-    
-    func showError(_ error: Error) {
-        ActivityIndicatorView.shared.hide()
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
     }
 } 

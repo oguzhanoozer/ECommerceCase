@@ -1,3 +1,10 @@
+//
+//  HeaderCell.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class HeaderCell: UICollectionViewCell {
@@ -23,20 +30,18 @@ class HeaderCell: UICollectionViewCell {
         let stack = UIStackView(arrangedSubviews: [
             titleLabel,
             categoryLabel,
-            UIView(),  // Spacer view - Esnek boşluk bırakacak
+            UIView(),
             priceAndRatingStack
         ])
         stack.axis = .vertical
         stack.spacing = AppSizes.Padding.small
         stack.alignment = .fill
         
-        // Spacer view'ın esnemesini sağlayalım
         if let spacerView = stack.arrangedSubviews[2] as? UIView {
             spacerView.setContentHuggingPriority(.defaultLow, for: .vertical)
             spacerView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
         }
         
-        // Price ve rating stack'in genişliğini parent'a eşitleyelim
         priceAndRatingStack.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         
         return stack
@@ -49,7 +54,7 @@ class HeaderCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     // MARK: - Setup
@@ -68,13 +73,11 @@ class HeaderCell: UICollectionViewCell {
         }
         
         NSLayoutConstraint.activate([
-            // Container view tam ekran olsun
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
-            // Image ve info stack padding'leri
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),

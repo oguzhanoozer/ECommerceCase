@@ -1,3 +1,10 @@
+//
+//  ProductListViewController.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class ProductListViewController: UIViewController {
@@ -32,7 +39,7 @@ class ProductListViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     override func viewDidLoad() {
@@ -40,7 +47,6 @@ class ProductListViewController: UIViewController {
         setupUI()
         fetchData()
         
-        // Tüm navigation için back yazısını kaldır
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -56,13 +62,11 @@ class ProductListViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            // Top background view constraints
             topBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
             topBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             topBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             topBackgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
-            // Collection view constraints
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -157,12 +161,6 @@ extension ProductListViewController: ProductListViewModelDelegate {
         collectionView.reloadData()
     }
     
-    func showError(_ error: Error) {
-        ActivityIndicatorView.shared.hide()
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
 }
 
 // MARK: - HeaderViewDelegate

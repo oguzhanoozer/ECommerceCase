@@ -1,3 +1,10 @@
+//
+//  AppConstants.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 struct AppConstants {
     struct API {
         static let baseURL = "https://fakestoreapi.com"
@@ -9,4 +16,13 @@ struct AppConstants {
         static let productCell = "ProductCell"
         static let headerCell = "HeaderCell"
     }
-} 
+    
+    struct Error{
+        static let title = "init(coder:) has not been implemented"
+    }
+    
+    struct Alert {
+        static let error = "Error!"
+        static let okButton = "OK"
+    }
+}

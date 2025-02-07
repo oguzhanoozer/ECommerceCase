@@ -1,3 +1,10 @@
+//
+//  ProductImageView.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class ProductImageView: BaseView {
@@ -14,7 +21,7 @@ class ProductImageView: BaseView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     private func setupImageView() {

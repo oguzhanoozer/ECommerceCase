@@ -1,4 +1,11 @@
- import Foundation
+//
+//  ProductListViewModelDelegate.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
+import Foundation
 
 protocol ProductListViewModelDelegate: AnyObject {
     func productsLoaded()
@@ -15,9 +22,9 @@ class ProductListViewModel {
     private var currentPage = 1
     private var isLoading = false
     private var hasMorePages = true
-    private let itemsPerPage = 6
+    private let itemsPerPage = 20
     
-    init(networkManager: NetworkManagerProtocol = MockNetworkManager.shared) {
+    init(networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.networkManager = networkManager
     }
     
@@ -25,7 +32,6 @@ class ProductListViewModel {
         guard !isLoading else { return }
         isLoading = true
         
-        // İlk sayfa için header ürünlerini çek
         if currentPage == 1 {
             fetchHeaderProducts()
         } else {
@@ -77,10 +83,10 @@ class ProductListViewModel {
     }
     
     func loadMoreIfNeeded(at indexPath: IndexPath) {
-        let threshold = products.count - 2
-        if indexPath.item >= threshold && hasMorePages && !isLoading {
-            fetchProducts()
-        }
+//        let threshold = products.count - 2
+//        if indexPath.item >= threshold && hasMorePages && !isLoading {
+//            fetchProducts()
+//        }
     }
     
     func refreshData() {

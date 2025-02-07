@@ -1,3 +1,10 @@
+//
+//  NetworkManager.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import Foundation
 
 protocol NetworkManagerProtocol {
@@ -41,7 +48,7 @@ class NetworkManager: NetworkManagerProtocol {
     }
     
     func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
-        let urlString = AppConstants.API.baseURL + AppConstants.API.products + "?limit=\(limit)&offset=\((page-1)*limit)"
+        let urlString = AppConstants.API.baseURL + AppConstants.API.products + "?limit=\(limit)"
         fetch(url: urlString, completion: completion)
     }
     

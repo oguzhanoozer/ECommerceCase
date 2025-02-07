@@ -1,3 +1,10 @@
+//
+//  ProductListViewModelTests.swift
+//  E-CommerceCaseTests
+//
+//  Created by oguzhan on 7.02.2025.
+//
+
 import XCTest
 @testable import E_CommerceCase
 
@@ -18,32 +25,26 @@ final class ProductListViewModelTests: XCTestCase {
     }
     
     func test_fetchProducts_success() {
-        // Given
         let expectation = expectation(description: "Fetch products success")
         mockNetwork.shouldFail = false
         viewModel.delegate = self
         
-        // When
         viewModel.fetchProducts()
         
-        // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertFalse(viewModel.products.isEmpty)
         XCTAssertFalse(viewModel.headerProducts.isEmpty)
-        XCTAssertEqual(viewModel.products.count, 2)  // Mock data'daki ürün sayısı
+        XCTAssertEqual(viewModel.products.count, 2)
         XCTAssertEqual(viewModel.headerProducts.count, 2)
     }
     
     func test_fetchProducts_failure() {
-        // Given
         let expectation = expectation(description: "Fetch products failure")
         mockNetwork.shouldFail = true
         viewModel.delegate = self
         
-        // When
         viewModel.fetchProducts()
         
-        // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertTrue(viewModel.products.isEmpty)
         XCTAssertTrue(viewModel.headerProducts.isEmpty)

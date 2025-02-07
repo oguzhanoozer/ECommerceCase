@@ -1,3 +1,10 @@
+//
+//  MockData.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 struct MockData {
     static let productsJSON = """
     [

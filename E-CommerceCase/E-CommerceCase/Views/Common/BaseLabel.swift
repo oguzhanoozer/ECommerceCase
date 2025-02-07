@@ -1,13 +1,20 @@
+//
+//  BaseLabel.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class BaseLabel: UILabel {
     enum Style {
-        case title      // Ürün başlığı için
-        case price      // Fiyat için
-        case subtitle   // Kategori gibi ikincil bilgiler için
-        case body       // Açıklama metni için
-        case rating     // Rating için
-        case ratingCount // Rating sayısı için
+        case title
+        case price
+        case subtitle
+        case body
+        case rating
+        case ratingCount 
         
         var font: UIFont {
             switch self {
@@ -58,7 +65,7 @@ class BaseLabel: UILabel {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     private func configure(with style: Style) {
