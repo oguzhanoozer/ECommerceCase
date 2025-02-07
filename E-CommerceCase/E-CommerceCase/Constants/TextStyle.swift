@@ -1,3 +1,10 @@
+//
+//  TextStyle.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 enum TextStyle {

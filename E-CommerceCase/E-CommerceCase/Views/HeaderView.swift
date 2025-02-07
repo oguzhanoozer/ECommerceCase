@@ -1,3 +1,10 @@
+//
+//  HeaderView.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 protocol HeaderViewDelegate: AnyObject {
@@ -27,14 +34,8 @@ class HeaderView: UICollectionReusableView {
         cv.showsHorizontalScrollIndicator = false
         cv.delegate = self
         cv.dataSource = self
-        cv.register(HeaderCell.self, forCellWithReuseIdentifier: "HeaderCell")
+        cv.register(HeaderCell.self, forCellWithReuseIdentifier: AppConstants.CellIdentifiers.headerCell)
         return cv
-    }()
-    
-    private let backgroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
     }()
     
     override init(frame: CGRect) {
@@ -43,7 +44,7 @@ class HeaderView: UICollectionReusableView {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     func configure(with products: [Product]) {
@@ -53,20 +54,16 @@ class HeaderView: UICollectionReusableView {
     }
     
     private func setupUI() {
-        addSubview(backgroundView)
+        backgroundColor = .clear
+        
         addSubview(collectionView)
         addSubview(pageControl)
         
-        backgroundView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        [collectionView, pageControl].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
-            backgroundView.topAnchor.constraint(equalTo: topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -86,7 +83,7 @@ extension HeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "HeaderCell", for: indexPath) as? HeaderCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AppConstants.CellIdentifiers.headerCell, for: indexPath) as? HeaderCell else {
             return UICollectionViewCell()
         }
         cell.configure(with: products[indexPath.item])
@@ -94,11 +91,7 @@ extension HeaderView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 160)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {

@@ -1,3 +1,10 @@
+//
+//  MockNetworkManager.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import Foundation
 
 class MockNetworkManager: NetworkManagerProtocol {
@@ -20,42 +27,51 @@ class MockNetworkManager: NetworkManagerProtocol {
         return try? JSONDecoder().decode([Product].self, from: jsonData)
     }
     
-    func fetchProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
+    func fetchProducts(page: Int, limit: Int, completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
-        if let products = parseProducts() {
-            completion(.success(products))
+        if let allProducts = parseProducts() {
+            let startIndex = (page - 1) * limit
+            let endIndex = min(startIndex + limit, allProducts.count)
+            
+            guard startIndex < allProducts.count else {
+                completion(.success([]))
+                return
+            }
+            
+            let pagedProducts = Array(allProducts[startIndex..<endIndex])
+            completion(.success(pagedProducts))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
     
     func fetchProductDetail(id: Int, completion: @escaping (Result<Product, Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
         if let product = parseProductDetail() {
             completion(.success(product))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
     
     func fetchHeaderProducts(completion: @escaping (Result<[Product], Error>) -> Void) {
         if shouldFail {
-            completion(.failure(NSError(domain: "", code: -1)))
+            completion(.failure(NetworkError.noData))
             return
         }
         
         if let products = parseHeaderProducts() {
             completion(.success(products))
         } else {
-            completion(.failure(NSError(domain: "", code: -2)))
+            completion(.failure(NetworkError.noData))
         }
     }
 } 

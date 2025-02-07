@@ -1,3 +1,10 @@
+//
+//  ProductDetailViewModel.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import Foundation
 
 class ProductDetailViewModel {
@@ -7,21 +14,19 @@ class ProductDetailViewModel {
     
     weak var delegate: ProductListViewModelDelegate?
     
-    init(productId: Int, networkManager: NetworkManagerProtocol = MockNetworkManager.shared) {
+    init(productId: Int, networkManager: NetworkManagerProtocol = NetworkManager.shared) {
         self.productId = productId
         self.networkManager = networkManager
     }
     
     func fetchProductDetail() {
         networkManager.fetchProductDetail(id: productId) { [weak self] result in
-            switch result {
-            case .success(let product):
-                self?.product = product
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let product):
+                    self?.product = product
                     self?.delegate?.productsLoaded()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
+                case .failure(let error):
                     self?.delegate?.showError(error)
                 }
             }

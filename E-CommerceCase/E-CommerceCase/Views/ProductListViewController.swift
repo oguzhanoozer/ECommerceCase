@@ -1,58 +1,93 @@
+//
+//  ProductListViewController.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class ProductListViewController: UIViewController {
+    // MARK: - Properties
     private let viewModel: ProductListViewModel
+    private var selectedCellFrame: CGRect?
+    
+    // MARK: - UI Components
+    private let topBackgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.minimumLineSpacing = AppSizes.Padding.medium
-        layout.minimumInteritemSpacing = AppSizes.Padding.medium
-        layout.sectionInset = UIEdgeInsets(top: 0,
-                                         left: AppSizes.Padding.medium,
-                                         bottom: AppSizes.Padding.medium,
-                                         right: AppSizes.Padding.medium)
-        
+        let layout = createLayout()
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = AppColors.primary
         cv.delegate = self
         cv.dataSource = self
         cv.register(ProductCell.self, forCellWithReuseIdentifier: AppConstants.CellIdentifiers.productCell)
-        cv.register(HeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: AppConstants.CellIdentifiers.headerCell)
+        cv.register(HeaderView.self, 
+                   forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                   withReuseIdentifier: AppConstants.CellIdentifiers.headerCell)
         return cv
     }()
     
-    private var selectedCellFrame: CGRect?
-    
+    // MARK: - Lifecycle
     init(viewModel: ProductListViewModel = ProductListViewModel()) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
-        viewModel.delegate = self
-        ActivityIndicatorView.shared.show(in: view)
-        viewModel.fetchProducts()
+        fetchData()
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
+    // MARK: - Setup
     private func setupUI() {
-        title = "Products"
         view.backgroundColor = AppColors.primary
+        
+        view.addSubview(topBackgroundView)
         view.addSubview(collectionView)
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        [topBackgroundView, collectionView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
         NSLayoutConstraint.activate([
+            topBackgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            topBackgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            topBackgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            topBackgroundView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func createLayout() -> UICollectionViewFlowLayout {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = AppSizes.Padding.medium
+        layout.minimumInteritemSpacing = AppSizes.Padding.medium
+        layout.sectionInset = .zero
+        return layout
+    }
+    
+    // MARK: - Data
+    private func fetchData() {
+        viewModel.delegate = self
+        ActivityIndicatorView.shared.show(in: view)
+        viewModel.fetchProducts()
     }
     
     private func navigateToDetail(with id: Int) {
@@ -73,21 +108,21 @@ extension ProductListViewController: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let product = viewModel.products[indexPath.item]
-        cell.configure(with: product)
+        cell.configure(with: viewModel.products[indexPath.item])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: AppConstants.CellIdentifiers.headerCell, for: indexPath) as? HeaderView else {
-                return UICollectionReusableView()
-            }
-            headerView.delegate = self
-            headerView.configure(with: viewModel.headerProducts)
-            return headerView
+        guard kind == UICollectionView.elementKindSectionHeader,
+              let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: AppConstants.CellIdentifiers.headerCell,
+                                                                             for: indexPath) as? HeaderView else {
+            return UICollectionReusableView()
         }
-        return UICollectionReusableView()
+        
+        headerView.delegate = self
+        headerView.configure(with: viewModel.headerProducts)
+        return headerView
     }
 }
 
@@ -100,7 +135,7 @@ extension ProductListViewController: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: 190)
+        return CGSize(width: collectionView.bounds.width, height: 220)
     }
 }
 
@@ -113,6 +148,10 @@ extension ProductListViewController: UICollectionViewDelegate {
         let product = viewModel.products[indexPath.item]
         navigateToDetail(with: product.id)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.loadMoreIfNeeded(at: indexPath)
+    }
 }
 
 // MARK: - ProductListViewModelDelegate
@@ -122,12 +161,6 @@ extension ProductListViewController: ProductListViewModelDelegate {
         collectionView.reloadData()
     }
     
-    func showError(_ error: Error) {
-        ActivityIndicatorView.shared.hide()
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
-    }
 }
 
 // MARK: - HeaderViewDelegate

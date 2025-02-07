@@ -1,3 +1,10 @@
+//
+//  Product.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 struct Product: Codable {
     let id: Int
     let title: String

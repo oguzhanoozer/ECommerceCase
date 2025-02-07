@@ -1,3 +1,10 @@
+//
+//  ProductCell.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class ProductCell: UICollectionViewCell {
@@ -11,20 +18,16 @@ class ProductCell: UICollectionViewCell {
     
     private let imageView = ProductImageView()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.secondary
-        label.numberOfLines = 2
-        return label
+    private lazy var contentStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [titleLabel, priceLabel])
+        stack.axis = .vertical
+        stack.spacing = AppSizes.Padding.small
+        stack.alignment = .leading
+        return stack
     }()
     
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.body
-        label.textColor = AppColors.accent
-        return label
-    }()
+    private let titleLabel = BaseLabel(style: .title)
+    private let priceLabel = BaseLabel(style: .price)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -32,18 +35,17 @@ class ProductCell: UICollectionViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
     private func setupUI() {
         contentView.addSubview(cardView)
         cardView.addSubview(imageContainerView)
         imageContainerView.addSubview(imageView)
-        cardView.addSubview(titleLabel)
-        cardView.addSubview(priceLabel)
+        cardView.addSubview(contentStack)
         
         [cardView, imageContainerView, imageView, 
-         titleLabel, priceLabel].forEach {
+         contentStack].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
@@ -63,14 +65,10 @@ class ProductCell: UICollectionViewCell {
             imageView.widthAnchor.constraint(equalTo: imageContainerView.widthAnchor, multiplier: 0.8),
             imageView.heightAnchor.constraint(equalTo: imageContainerView.heightAnchor, multiplier: 0.8),
             
-            titleLabel.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: AppSizes.Padding.medium),
-            titleLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
-            titleLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
-            
-            priceLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: AppSizes.Padding.small),
-            priceLabel.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
-            priceLabel.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
-            priceLabel.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppSizes.Padding.medium)
+            contentStack.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor, constant: AppSizes.Padding.medium),
+            contentStack.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: AppSizes.Padding.medium),
+            contentStack.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -AppSizes.Padding.medium),
+            contentStack.bottomAnchor.constraint(equalTo: cardView.bottomAnchor, constant: -AppSizes.Padding.medium)
         ])
     }
     

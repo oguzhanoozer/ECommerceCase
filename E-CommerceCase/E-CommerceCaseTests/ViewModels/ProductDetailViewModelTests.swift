@@ -1,3 +1,10 @@
+//
+//  ProductDetailViewModelTests.swift
+//  E-CommerceCaseTests
+//
+//  Created by oguzhan on 7.02.2025.
+//
+
 import XCTest
 @testable import E_CommerceCase
 
@@ -18,15 +25,12 @@ final class ProductDetailViewModelTests: XCTestCase {
     }
     
     func test_fetchProductDetail_success() {
-        // Given
         let expectation = expectation(description: "Fetch product detail success")
         mockNetwork.shouldFail = false
         viewModel.delegate = self
         
-        // When
         viewModel.fetchProductDetail()
         
-        // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertNotNil(viewModel.product)
         XCTAssertEqual(viewModel.product?.id, 1)
@@ -34,15 +38,12 @@ final class ProductDetailViewModelTests: XCTestCase {
     }
     
     func test_fetchProductDetail_failure() {
-        // Given
         let expectation = expectation(description: "Fetch product detail failure")
         mockNetwork.shouldFail = true
         viewModel.delegate = self
         
-        // When
         viewModel.fetchProductDetail()
         
-        // Then
         wait(for: [expectation], timeout: 1.0)
         XCTAssertNil(viewModel.product)
     }

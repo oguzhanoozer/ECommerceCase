@@ -1,39 +1,76 @@
+//
+//  ProductImageView.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
-class ProductImageView: UIImageView {
-    convenience init() {
-        self.init(frame: .zero)
-    }
+class ProductImageView: BaseView {
+    private let imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFit
+        iv.clipsToBounds = true
+        return iv
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
+        setupImageView()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
-    private func setupUI() {
-        contentMode = .scaleAspectFit
-        clipsToBounds = true
-        backgroundColor = .white
+    private func setupImageView() {
+        addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            imageView.topAnchor.constraint(equalTo: topAnchor),
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            imageView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
     }
     
     func loadImage(from urlString: String) {
-        if let url = URL(string: urlString) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        UIView.transition(with: self ?? UIImageView(),
-                                       duration: 0.3,
-                                       options: .transitionCrossDissolve,
-                                       animations: {
-                            self?.image = image
-                        })
-                    }
-                }
-            }.resume()
+        resetState()
+        showLoading()
+        
+        guard let url = URL(string: urlString) else {
+            showError()
+            return
         }
+        
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.hideLoading()
+                
+                if let error = error {
+                    print("Image loading error: \(error.localizedDescription)")
+                    self?.showError()
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode),
+                      let data = data,
+                      let image = UIImage(data: data) else {
+                    self?.showError()
+                    return
+                }
+                
+                UIView.transition(with: self?.imageView ?? UIImageView(),
+                                duration: 0.3,
+                                options: .transitionCrossDissolve,
+                                animations: {
+                    self?.imageView.image = image
+                })
+            }
+        }
+        task.resume()
     }
 } 

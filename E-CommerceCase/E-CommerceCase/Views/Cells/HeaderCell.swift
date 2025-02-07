@@ -1,137 +1,101 @@
+//
+//  HeaderCell.swift
+//  E-CommerceCase
+//
+//  Created by oguzhan on 6.02.2025.
+//
+
 import UIKit
 
 class HeaderCell: UICollectionViewCell {
-    private let containerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
-        view.clipsToBounds = true
-        return view
+    // MARK: - UI Components
+    private let containerView = BaseView()
+    private let imageView = ProductImageView()
+    
+    private let titleLabel = BaseLabel(style: .title)
+    private let categoryLabel = BaseLabel(style: .subtitle)
+    private let priceLabel = BaseLabel(style: .price)
+    private let ratingLabel = BaseLabel(style: .rating)
+    
+    private lazy var priceAndRatingStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [priceLabel, ratingLabel])
+        stack.axis = .horizontal
+        stack.spacing = AppSizes.Padding.large
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        return stack
     }()
     
-    private let imageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFit
-        iv.clipsToBounds = true
-        iv.backgroundColor = .white
-        return iv
+    private lazy var infoStack: UIStackView = {
+        let stack = UIStackView(arrangedSubviews: [
+            titleLabel,
+            categoryLabel,
+            UIView(),
+            priceAndRatingStack
+        ])
+        stack.axis = .vertical
+        stack.spacing = AppSizes.Padding.small
+        stack.alignment = .fill
+        
+        if let spacerView = stack.arrangedSubviews[2] as? UIView {
+            spacerView.setContentHuggingPriority(.defaultLow, for: .vertical)
+            spacerView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
+        }
+        
+        priceAndRatingStack.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
+        
+        return stack
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.secondary
-        label.numberOfLines = 2
-        return label
-    }()
-    
-    private let priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.heading
-        label.textColor = AppColors.accent
-        return label
-    }()
-    
-    private let ratingLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.body
-        label.textColor = .systemYellow
-        return label
-    }()
-    
-    private let categoryLabel: UILabel = {
-        let label = UILabel()
-        label.font = TextStyle.caption
-        label.textColor = .gray
-        return label
-    }()
-    
-    private let priceAndRatingStackView: UIStackView = {
-        let sv = UIStackView()
-        sv.axis = .horizontal
-        sv.spacing = AppSizes.Padding.large
-        sv.alignment = .center
-        return sv
-    }()
-    
-    private let spacerView: UIView = {
-        let view = UIView()
-        view.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        return view
-    }()
-    
+    // MARK: - Init
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(AppConstants.Error.title)
     }
     
+    // MARK: - Setup
     private func setupUI() {
         backgroundColor = .clear
+        containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 12
+        containerView.clipsToBounds = true
         
-        addSubview(containerView)
+        contentView.addSubview(containerView)
         containerView.addSubview(imageView)
-        containerView.addSubview(titleLabel)
-        containerView.addSubview(priceAndRatingStackView)
+        containerView.addSubview(infoStack)
         
-        priceAndRatingStackView.addArrangedSubview(priceLabel)
-        priceAndRatingStackView.addArrangedSubview(spacerView)
-        priceAndRatingStackView.addArrangedSubview(ratingLabel)
-        
-        priceLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        ratingLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        priceAndRatingStackView.translatesAutoresizingMaskIntoConstraints = false
+        [containerView, imageView, infoStack].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
-            containerView.topAnchor.constraint(equalTo: topAnchor, constant: 8),
-            containerView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            containerView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            containerView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8),
+            containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             imageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
-            imageView.heightAnchor.constraint(equalToConstant: 150),
-            imageView.widthAnchor.constraint(equalToConstant: 150),
+            imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            
-            priceAndRatingStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            priceAndRatingStackView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            priceAndRatingStackView.trailingAnchor.constraint(lessThanOrEqualTo: containerView.trailingAnchor, constant: -12),
-            priceAndRatingStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12)
+            infoStack.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            infoStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
+            infoStack.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            infoStack.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12)
         ])
-        
-        containerView.layer.shadowColor = UIColor.black.cgColor
-        containerView.layer.shadowOpacity = 0.1
-        containerView.layer.shadowOffset = CGSize(width: 0, height: 2)
-        containerView.layer.shadowRadius = 4
     }
     
+    // MARK: - Configure
     func configure(with product: Product) {
         titleLabel.text = product.title
+        categoryLabel.text = product.category
         priceLabel.text = "$\(String(format: "%.2f", product.price))"
-        ratingLabel.text = "★ \(String(format: "%.1f", product.rating.rate))"
-        categoryLabel.text = product.category.capitalized
-        
-        if let url = URL(string: product.image) {
-            URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
-                if let data = data, let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.imageView.image = image
-                    }
-                }
-            }.resume()
-        }
+        ratingLabel.text = "★ \(String(format: "%.1f", product.rating.rate)) (\(product.rating.count))"
+        imageView.loadImage(from: product.image)
     }
 } 
