@@ -40,35 +40,29 @@ E-CommerceCase/
 ```
 
 # Tech Stack & Architecture
-<ul>
-<li>Dil: Swift 5.0+</li>
-<li>Minimum iOS: 13.0+</li>
-<li>Mimari: MVVM (Model-View-ViewModel)</li>
-<li>UI: Programmatic UI (No Storyboard/XIB)</li>
-<li>Network: Protocol-Oriented Network Layer with URLSession</li>
-<li>Test: Unit Tests with XCTest</li>
-</ul>
+- Language: Swift 5.0+
+- Minimum iOS: 13.0+
+- Architecture: MVVM (Model-View-ViewModel)
+- UI: Programmatic UI (No Storyboard/XIB)
+- Network: Protocol-Oriented Network Layer with URLSession
+- Test: Unit Tests with XCTest
 
 # Key Features
-<ul>
-<li>[x] Ürün listesi (grid layout)</li>
-<li>[x] Öne çıkan ürünler carousel'ı</li>
-<li>[x] Ürün detay sayfası</li>
-<li>[x] Lazy image loading</li>
-<li>[x] Error handling & loading states</li>
-<li>[x] Unit tests</li>
-<li>[x] Mock data desteği</li>
-<li>[x] Reusable UI components</li>
-</ul>
+- [x] Product list (grid layout)
+- [x] Featured products carousel
+- [x] Product detail page
+- [x] Lazy image loading
+- [x] Error handling & loading states
+- [x] Unit tests
+- [x] Mock data support
+- [x] Reusable UI components
 
 
 # Getting Started
-Requirements
-<ul>
-  <li>IOS 13.0+</li>
-  <li>Xcode 12.0+</li>
-  <li>Swift 5.0+</li>
-</ul>
+Requirements:
+- iOS 13.0+
+- Xcode 12.0+
+- Swift 5.0+
 
 # Installation
 <ul>
